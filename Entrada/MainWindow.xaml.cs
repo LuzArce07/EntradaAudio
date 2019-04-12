@@ -74,7 +74,25 @@ namespace Entrada
             byte[] buffer = e.Buffer;
             int bytesGrabados = e.BytesRecorded;
             float acumulador = 0.0f;
-            
+
+            double numeroMuestras = bytesGrabados / 2;
+            int exponente = 1;
+            int numeroMuestrasComplejas = 0;
+            int bitsMaximos = 0;
+
+            do
+            {
+
+                bitsMaximos = (int)Math.Pow(2, exponente);
+                exponente++;
+
+            } while (bitsMaximos < numeroMuestras);
+
+            numeroMuestrasComplejas = bitsMaximos / 2;
+            exponente--;
+
+            Complex[] señalCompleja = new Complex[numeroMuestrasComplejas];
+
             for(int i = 0; i < bytesGrabados; i += 2)
             {
 
@@ -85,9 +103,17 @@ namespace Entrada
                 float muestra32bits = (float)muestra / 32768.0f;
                 acumulador += Math.Abs(muestra32bits);
 
+                if (i / 2 < numeroMuestrasComplejas)
+                {
+                    señalCompleja[i / 2].X = muestra32bits;
+                }
+
             }
+
             float promedio = acumulador / (bytesGrabados / 2.0f);
             sldMicrofono.Value = (double)promedio;
+
+            //FastFourierTransform.FFT();
         
         }
 
@@ -95,6 +121,9 @@ namespace Entrada
         {
             waveIn.StopRecording();
         }
+
     }
 
 }
+
+
