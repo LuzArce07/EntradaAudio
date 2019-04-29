@@ -20,6 +20,7 @@ using NAudio.Dsp;
 
 namespace Entrada
 {
+
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
@@ -70,6 +71,7 @@ namespace Entrada
 
         private void WaveIn_DataAvailable(object sender, WaveInEventArgs e)
         {
+
             //1 byte = 8 bits
             byte[] buffer = e.Buffer;
             int bytesGrabados = e.BytesRecorded;
@@ -114,6 +116,11 @@ namespace Entrada
             sldMicrofono.Value = (double)promedio;
 
             //FastFourierTransform.FFT();
+
+            if (promedio > 0)
+            {
+                FastFourierTransform.FFT(true, exponente, señalCompleja);
+            }
         
         }
 
@@ -125,5 +132,6 @@ namespace Entrada
     }
 
 }
+
 
 
