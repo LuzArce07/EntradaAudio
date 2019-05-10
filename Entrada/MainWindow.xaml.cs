@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Threading;
+
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NAudio.Dsp;
@@ -30,11 +32,35 @@ namespace Entrada
 
         WaveIn waveIn;
 
+        DispatcherTimer timer;
+
+        float frecuenciaFundamental = 0;
+
         public MainWindow()
         {
 
             InitializeComponent();
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(100);
+            timer.Tick += Timer_Tick;
+
             LlenarComboDispositivos();
+
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+
+            if (frecuenciaFundamental >= 500)
+            {
+                var leftCarro = Canvas.GetLeft(imgCarro);
+                Canvas.SetLeft(imgCarro, leftCarro + (frecuenciaFundamental / 500.0f) * 0.5f);
+            }
+            else
+            {
+                Canvas.SetLeft(imgCarro, 10);
+            }
 
         }
 
@@ -55,6 +81,8 @@ namespace Entrada
         private void btnIniciar_Click(object sender, RoutedEventArgs e)
         {
 
+            timer.Start();
+
             waveIn = new WaveIn();
 
             //Formato de audio
@@ -67,6 +95,7 @@ namespace Entrada
             waveIn.DataAvailable += WaveIn_DataAvailable;
 
             waveIn.StartRecording();
+
         }
 
         private void WaveIn_DataAvailable(object sender, WaveInEventArgs e)
@@ -91,7 +120,7 @@ namespace Entrada
             } while (bitsMaximos < numeroMuestras);
 
             numeroMuestrasComplejas = bitsMaximos / 2;
-            exponente--;
+            exponente-=2;
 
             Complex[] señalCompleja = new Complex[numeroMuestrasComplejas];
 
@@ -119,9 +148,27 @@ namespace Entrada
 
             if (promedio > 0)
             {
+
                 FastFourierTransform.FFT(true, exponente, señalCompleja);
+                float[] valoresAbsolutos = new float[señalCompleja.Length];
+                for(int i = 0; i < señalCompleja.Length; i++)
+                {
+
+                    valoresAbsolutos[i] = (float) Math.Sqrt(
+                        (señalCompleja[i].X * señalCompleja[i].X) + 
+                        (señalCompleja[i].Y * señalCompleja[i].Y)
+                        );
+
+                }
+
+                int indiceSeñalConMasPresencia = valoresAbsolutos.ToList().IndexOf(valoresAbsolutos.Max());
+
+                frecuenciaFundamental = (float)(indiceSeñalConMasPresencia * waveIn.WaveFormat.SampleRate) / (float)valoresAbsolutos.Length;
+
+                lblFrecuencia.Text = frecuenciaFundamental.ToString("f");
+                
             }
-        
+            
         }
 
         private void btnDetener_Click(object sender, RoutedEventArgs e)
@@ -132,6 +179,3 @@ namespace Entrada
     }
 
 }
-
-
-

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Entrada"
         mc:Ignorable="d"
-        Title="MainWindow" Height="282" Width="800">
+        Title="MainWindow" Height="532" Width="800">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="34,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107"><Run Text="Elegir disposit"/><Run Text="ivo:"/></TextBlock>
         <ComboBox x:Name="cmbDispositivos" HorizontalAlignment="Left" Margin="34,63,0,0" VerticalAlignment="Top" Width="713"/>
@@ -13,6 +13,9 @@
         <Button x:Name="btnDetener" Content="Detener" HorizontalAlignment="Left" Margin="119,99,0,0" VerticalAlignment="Top" Width="76" Click="btnDetener_Click"/>
         <Slider x:Name="sldMicrofono" HorizontalAlignment="Left" Margin="217,102,0,0" VerticalAlignment="Top" Orientation="Vertical" Height="125" LargeChange="0.2" Maximum="1" SmallChange="0.01"/>
         <TextBlock x:Name="lblFrecuencia" HorizontalAlignment="Left" Margin="101,179,0,0" TextWrapping="Wrap" Text="0.0" VerticalAlignment="Top" FontSize="36" Width="94" TextAlignment="Center"/>
+        <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="242" Margin="10,242,0,0" VerticalAlignment="Top" Width="772">
+            <Image x:Name="imgCarro" Height="100" Canvas.Left="10" Canvas.Top="10" Width="100" Source="carro.png"/>
+        </Canvas>
 
     </Grid>
 </Window>
