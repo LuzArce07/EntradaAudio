@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Entrada"
         mc:Ignorable="d"
-        Title="MainWindow" Height="532" Width="800">
+        Title="MainWindow" Height="604.767" Width="800">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="34,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107"><Run Text="Elegir disposit"/><Run Text="ivo:"/></TextBlock>
         <ComboBox x:Name="cmbDispositivos" HorizontalAlignment="Left" Margin="34,63,0,0" VerticalAlignment="Top" Width="713"/>
@@ -16,6 +16,8 @@
         <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="242" Margin="10,242,0,0" VerticalAlignment="Top" Width="772">
             <Image x:Name="imgCarro" Height="100" Canvas.Left="10" Canvas.Top="10" Width="100" Source="carro.png"/>
         </Canvas>
+        <TextBox x:Name="txtTexto" HorizontalAlignment="Left" Height="56" Margin="10,498,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" FontSize="20"/>
+        <TextBlock x:Name="lblEO" HorizontalAlignment="Left" Margin="411,498,0,0" TextWrapping="Wrap" Text="EO!" VerticalAlignment="Top" Height="56" Width="135" FontSize="36" Visibility="Hidden"/>
 
     </Grid>
 </Window>
